@@ -34,7 +34,6 @@ page:
 masterbuild:
   stage: build
   script:
-    - echo ${GITLAB_CONFIG_SERVER}
     - chmod a+x .config.sh
     - ./.config.sh
   only:
