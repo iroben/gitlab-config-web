@@ -42,6 +42,10 @@ const columns = [
     }
   },
   {
+    title: "IP",
+    dataIndex: "Ip"
+  },
+  {
     title: "行为",
     dataIndex: "Action",
     scopedSlots: {
@@ -99,6 +103,16 @@ export default {
     logs() {
       return this.logData.map(v => {
         v.Json = JSON.parse(v.Data);
+        if (d.Json.before) {
+          delete d.Json.before.Id;
+          delete d.Json.before.ProjectId;
+          delete d.Json.before.Key;
+        }
+        if (d.Json.after) {
+          delete d.Json.after.Id;
+          delete d.Json.after.ProjectId;
+          delete d.Json.after.Key;
+        }
         v.Before = JSON.stringify(v.Json.before, "", 4);
         v.After = JSON.stringify(v.Json.after, "", 4);
 
