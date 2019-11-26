@@ -2,6 +2,9 @@
   "name": "gitlab-config-web",
   "version": "0.1.0",
   "private": true,
+  "author": "LiuBin",
+  "email": "iroben@163.com",
+  "license": "MIT",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",

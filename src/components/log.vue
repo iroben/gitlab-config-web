@@ -8,10 +8,8 @@
       @change="changePage"
       :pagination="pagination"
     >
-      <span slot="Action" slot-scope="text,record,index">
-        <a-tag
-          :color="['red','green','purple','pink','blue','orange','cyan','#f50','#2db7f5','#87d068', '#108ee9'][index%11]"
-        >{{text}}</a-tag>
+      <span slot="Action" slot-scope="text">
+        <a-tag :color="text=='update'?'blue':'red'">{{text}}</a-tag>
       </span>
       <span slot="Before" slot-scope="text,record" style="white-space:pre-wrap">{{record.Before}}</span>
       <span slot="After" slot-scope="text,record" style="white-space:pre-wrap">{{record.After}}</span>
@@ -30,16 +28,17 @@ const columns = [
     title: "项目",
     dataIndex: "Project",
     customRender(text, record) {
-      let project = projects[record.Json.before.ProjectId];
+      let project = projects[record.ProjectId];
       return project ? project.Name : "-";
     }
   },
   {
     title: "配置名",
-    dataIndex: "Config",
-    customRender(text, record) {
-      return record.Json.before.Key;
-    }
+    dataIndex: "Key"
+  },
+  {
+    title: "IP",
+    dataIndex: "Ip"
   },
   {
     title: "行为",
@@ -99,6 +98,19 @@ export default {
     logs() {
       return this.logData.map(v => {
         v.Json = JSON.parse(v.Data);
+        v.ProjectId = v.Json.before.ProjectId;
+        v.Key = v.Json.before.Key;
+
+        if (v.Json.before) {
+          delete v.Json.before.Id;
+          delete v.Json.before.ProjectId;
+          delete v.Json.before.Key;
+        }
+        if (v.Json.after) {
+          delete v.Json.after.Id;
+          delete v.Json.after.ProjectId;
+          delete v.Json.after.Key;
+        }
         v.Before = JSON.stringify(v.Json.before, "", 4);
         v.After = JSON.stringify(v.Json.after, "", 4);
 
