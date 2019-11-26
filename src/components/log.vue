@@ -103,15 +103,15 @@ export default {
     logs() {
       return this.logData.map(v => {
         v.Json = JSON.parse(v.Data);
-        if (d.Json.before) {
-          delete d.Json.before.Id;
-          delete d.Json.before.ProjectId;
-          delete d.Json.before.Key;
+        if (v.Json.before) {
+          delete v.Json.before.Id;
+          delete v.Json.before.ProjectId;
+          delete v.Json.before.Key;
         }
-        if (d.Json.after) {
-          delete d.Json.after.Id;
-          delete d.Json.after.ProjectId;
-          delete d.Json.after.Key;
+        if (v.Json.after) {
+          delete v.Json.after.Id;
+          delete v.Json.after.ProjectId;
+          delete v.Json.after.Key;
         }
         v.Before = JSON.stringify(v.Json.before, "", 4);
         v.After = JSON.stringify(v.Json.after, "", 4);
