@@ -1,0 +1,48 @@
+image: node:8.9.3
+stages:
+  - build
+  - deploy
+
+testbuild:
+  stage: build
+  script:
+    - echo "$NPMRC" > ~/.npmrc
+    - chmod a+x .config.sh
+    - ./.config.sh > src/config.js
+    - npm install --no-optional
+    - npm run build    
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - dist
+  only:
+    - test
+
+page:
+  stage: deploy
+  script:
+    - rm -rf public
+    - mkdir public
+    - mv dist/* public
+  artifacts:
+    expire_in: 3 days
+    paths:
+      - public
+  only:
+    - test
+
+masterbuild:
+  stage: build
+  script:
+    - chmod a+x .config.sh
+    - ./.config.sh
+  only:
+    - master
+
+tagbuild:
+  stage: build
+  script:
+    - chmod a+x .config.sh
+    - ./.config.sh
+  only:
+    - tags
