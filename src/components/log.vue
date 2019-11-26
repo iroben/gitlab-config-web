@@ -8,7 +8,7 @@
       @change="changePage"
       :pagination="pagination"
     >
-      <span slot="Action" slot-scope="text,record,index">
+      <span slot="Action" slot-scope="text">
         <a-tag :color="text=='update'?'blue':'red'">{{text}}</a-tag>
       </span>
       <span slot="Before" slot-scope="text,record" style="white-space:pre-wrap">{{record.Before}}</span>
