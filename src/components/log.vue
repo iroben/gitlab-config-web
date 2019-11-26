@@ -36,10 +36,7 @@ const columns = [
   },
   {
     title: "配置名",
-    dataIndex: "Config",
-    customRender(text, record) {
-      return record.Key;
-    }
+    dataIndex: "Key"
   },
   {
     title: "IP",
