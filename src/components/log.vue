@@ -30,7 +30,7 @@ const columns = [
     title: "项目",
     dataIndex: "Project",
     customRender(text, record) {
-      let project = projects[record.Json.before.ProjectId];
+      let project = projects[record.ProjectId];
       return project ? project.Name : "-";
     }
   },
@@ -38,7 +38,7 @@ const columns = [
     title: "配置名",
     dataIndex: "Config",
     customRender(text, record) {
-      return record.Json.before.Key;
+      return record.Key;
     }
   },
   {
@@ -103,6 +103,9 @@ export default {
     logs() {
       return this.logData.map(v => {
         v.Json = JSON.parse(v.Data);
+        v.ProjectId = v.Json.before.ProjectId;
+        v.Key = v.Json.before.Key;
+
         if (v.Json.before) {
           delete v.Json.before.Id;
           delete v.Json.before.ProjectId;
