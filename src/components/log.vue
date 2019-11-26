@@ -9,9 +9,7 @@
       :pagination="pagination"
     >
       <span slot="Action" slot-scope="text,record,index">
-        <a-tag
-          :color="['red','green','purple','pink','blue','orange','cyan','#f50','#2db7f5','#87d068', '#108ee9'][index%11]"
-        >{{text}}</a-tag>
+        <a-tag :color="text=='update'?'blue':'red'">{{text}}</a-tag>
       </span>
       <span slot="Before" slot-scope="text,record" style="white-space:pre-wrap">{{record.Before}}</span>
       <span slot="After" slot-scope="text,record" style="white-space:pre-wrap">{{record.After}}</span>
