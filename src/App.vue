@@ -31,6 +31,7 @@
 <script>
 import axios from "axios";
 import config from "@/config";
+import { notification } from "ant-design-vue";
 export default {
   data() {
     return {
@@ -49,6 +50,11 @@ export default {
         .get(config["gitlab-config-server.domain"] + "/v1/userinfo")
         .then(resp => {
           this.userinfo = resp.data.data;
+          notification.info({
+            message: "系统提示",
+            description:
+              "服务器正在后台同步项目数据，如果项目数据不完整，请稍后刷新..."
+          });
         })
         .catch(() => {
           location.href =
