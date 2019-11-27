@@ -27,9 +27,9 @@
           okText="是"
           cancelText="否"
         >
-          <a-button class="btn" type="primary" icon="save">保存</a-button>
+          <a-button :disabled="!project" class="btn" type="primary" icon="save">保存</a-button>
         </a-popconfirm>
-        <a-button :disabled="!project" class="btn" type="dashed" @click="upload" icon="upload">导入</a-button>
+        <a-button :disabled="!project" class="btn" type="dashed" @click="upload" icon="upload">添加配置</a-button>
         <a-button
           :disabled="!project || !yaml"
           class="btn"
@@ -38,7 +38,7 @@
           icon="export"
           id="copy_yaml"
           :data-clipboard-text="yaml"
-        >导出</a-button>
+        >导出配置</a-button>
       </span>
     </a-card>
     <!-- 配置信息 -->
@@ -172,7 +172,6 @@ export default {
       if (this.configData.length === 0) {
         return;
       }
-
       return yaml.stringify({
         [this.project.Name]: this.configData.map(v => v.Key)
       });
@@ -375,6 +374,9 @@ export default {
       if (this.lastEditConfig) {
         this.tempSave(this.lastEditConfig);
         this.lastEditConfig = null;
+      }
+      if (Object.keys(this.changed).length === 0) {
+        return;
       }
       axios
         .put(
