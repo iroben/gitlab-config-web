@@ -8,7 +8,8 @@
           showSearch
           style="width: 400px"
           placeholder="请选择项目"
-          :filterOption="filterOption"
+          :filterOption="false"
+          @search="filterOption"
           @change="handleChangeCheck"
         >
           <a-select-opt-group :label="group.Name" v-for="group in projects" :key="group.Name">
@@ -144,17 +145,19 @@ const columns = [
     scopedSlots: { customRender: "val" }
   }
 ];
-
+var clock;
 import config from "@/config";
 import axios from "axios";
 import { Modal, notification } from "ant-design-vue";
 import yaml from "yaml";
 import Clipboard from "clipboard";
+import { setTimeout, clearTimeout } from "timers";
 export default {
   data() {
     return {
       columns,
       uploadTxt: "",
+      searchTxt: "",
       projectData: [],
       configData: [],
       project: null,
@@ -183,14 +186,20 @@ export default {
       Object.keys(gitlabNameSpace).forEach(group => {
         let groupProjects = [];
         this.projectData.forEach(project => {
-          if (project.Group === group) {
-            groupProjects.push(project);
+          if (project.Group !== group) {
+            return;
           }
+          if (this.searchTxt !== "" && !project.Name.includes(this.searchTxt)) {
+            return;
+          }
+          groupProjects.push(project);
         });
-        retVal.push({
-          Name: group,
-          Projects: groupProjects
-        });
+        if (groupProjects.length > 0) {
+          retVal.push({
+            Name: group,
+            Projects: groupProjects
+          });
+        }
       });
       return retVal;
     },
@@ -282,12 +291,13 @@ export default {
       }
       config.editable = false;
     },
-    filterOption(input, option) {
-      return (
-        option.componentOptions.children[0].text
-          .toLowerCase()
-          .indexOf(input.toLowerCase()) >= 0
-      );
+    filterOption(input) {
+      if (clock) {
+        clearTimeout(clock);
+      }
+      clock = setTimeout(() => {
+        this.searchTxt = input;
+      }, 100);
     },
     loadProjects() {
       axios

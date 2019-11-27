@@ -5,7 +5,7 @@ import Log from './components/log'
 
 Vue.use(VueRouter)
 let base = "/"
-if (location.href.indexOf('/gitlab-config-web')) {
+if (location.href.indexOf('/gitlab-config-web') !== -1) {
   base = 'gitlab-config-web'
 }
 export default new VueRouter({
