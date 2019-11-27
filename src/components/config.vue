@@ -11,10 +11,12 @@
           :filterOption="filterOption"
           @change="handleChangeCheck"
         >
-          <a-select-option v-for="_project in projects" :key="_project.Id">
-            {{_project.Name}}
-            <template v-if="_project.Description">({{_project.Description}})</template>
-          </a-select-option>
+          <a-select-opt-group :label="group.Name" v-for="group in projects" :key="group.Name">
+            <a-select-option v-for="_project in group.Projects" :key="_project.Id">
+              {{_project.Name}}
+              <template v-if="_project.Description">({{_project.Description}})</template>
+            </a-select-option>
+          </a-select-opt-group>
         </a-select>
         <!-- 项目信息 -->
         <a-popconfirm
@@ -172,6 +174,26 @@ export default {
         [this.project.Name]: this.configData.map(v => v.Key)
       });
     },
+    projects() {
+      let gitlabNameSpace = {};
+      this.projectData.forEach(project => {
+        gitlabNameSpace[project.Group] = true;
+      });
+      let retVal = [];
+      Object.keys(gitlabNameSpace).forEach(group => {
+        let groupProjects = [];
+        this.projectData.forEach(project => {
+          if (project.Group === group) {
+            groupProjects.push(project);
+          }
+        });
+        retVal.push({
+          Name: group,
+          Projects: groupProjects
+        });
+      });
+      return retVal;
+    },
     configs() {
       if (!this.project) {
         return [];
@@ -271,7 +293,7 @@ export default {
       axios
         .get(config["gitlab-config-server.domain"] + "/v1/project")
         .then(resp => {
-          this.projects = resp.data.data;
+          this.projectData = resp.data.data;
         });
     },
     loadConfig(projectId) {
@@ -304,7 +326,7 @@ export default {
       this.handleChange(pId);
     },
     handleChange(pId) {
-      this.projects.forEach(v => {
+      this.projectData.forEach(v => {
         if (v.Id == pId) {
           this.project = v;
         }
