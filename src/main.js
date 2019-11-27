@@ -48,8 +48,8 @@ axios.interceptors.request.use(function (config) {
 axios.interceptors.response.use(function (response) {
   if (!response.data || response.data.statusCode !== 10000) {
     notification.error({
-      title: '系统提示',
-      content: response.data.statusCode || '系统错误'
+      message: '系统提示',
+      description: response.data.statusCode || '系统错误'
     })
     return Promise.reject("error")
   }
