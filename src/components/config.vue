@@ -155,7 +155,7 @@ export default {
     return {
       columns,
       uploadTxt: "",
-      projects: [],
+      projectData: [],
       configData: [],
       project: null,
       visible: false,
