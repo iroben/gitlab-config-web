@@ -6,7 +6,6 @@ stages:
 testbuild:
   stage: build
   script:
-    - echo "$NPMRC" > ~/.npmrc
     - chmod a+x .config.sh
     - ./.config.sh > src/config.js
     - npm install --no-optional
