@@ -9,6 +9,8 @@
 
 [API接口](https://github.com/iroben/gitlab-config-server)
 
+[GitLab设置请看这里](https://juejin.im/post/5dde281be51d45330766503f)
+
 
 ## 安装
 > 1. 先配置好[服务端接口](https://github.com/iroben/gitlab-config-server)
