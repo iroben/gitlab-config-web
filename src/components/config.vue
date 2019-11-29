@@ -335,6 +335,7 @@ export default {
       this.handleChange(pId);
     },
     handleChange(pId) {
+      this.searchTxt = "";
       this.projectData.forEach(v => {
         if (v.Id == pId) {
           this.project = v;
