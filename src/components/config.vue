@@ -85,16 +85,26 @@
       >
         <span slot="branch" slot-scope="text,record,index" style="text-align:right">
           <a-tag
-            :color="['red','green','purple','pink','blue','orange','cyan','#f50','#2db7f5','#87d068', '#108ee9'][index%11]"
+            :color="['green','red','purple','pink','blue','orange','cyan','#f50','#2db7f5','#87d068', '#108ee9'][index%11]"
           >{{text}}</a-tag>
         </span>
-        <template slot="val" slot-scope="text,record">
+        <template slot="val" slot-scope="text,record,index">
+          <!-- 第一行是依赖项目信息，不参与编辑 -->
           <a-input
-            v-if="config.editable"
+            v-if="config.editable&&index!==0"
             style="margin: -5px 0"
             :defaultValue="text"
             @change="e => configChange(e.target.value, record.branch,config)"
           />
+          <template v-else-if="index===0">
+            <!-- 第一行是依赖项目信息 -->
+            <a-tag
+              v-for="(project,_index) in text"
+              :title="project.Description"
+              :key="project.Id"
+              :color="['red','green','purple','pink','blue','orange','cyan','#f50','#2db7f5','#87d068', '#108ee9'][_index%11]"
+            >{{project.Name}}</a-tag>
+          </template>
           <template v-else>{{text}}</template>
         </template>
       </a-table>
@@ -209,7 +219,12 @@ export default {
       let branches = this.project.Branches;
       let hasTag = this.project.Tags && this.project.Tags.length > 0;
       let data = this.configData.map(v => {
-        let branchConfig = [];
+        let branchConfig = [
+          {
+            branch: "依赖项目",
+            val: v.DependentProjects
+          }
+        ];
         v.Val = v.Val || [];
         this.$set(v, "editable", false);
         branches.forEach(branch => {
