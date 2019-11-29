@@ -4,7 +4,7 @@
       <span slot="title">项目：
         <!-- 项目信息 -->
         <a-select
-          :value="project ? project.Id : '' "
+          :value="project ? project.Id : undefined "
           showSearch
           style="width: 400px"
           placeholder="请选择项目"
@@ -79,6 +79,7 @@
       <!-- 配置项的各分支值 -->
       <a-table
         :columns="columns"
+        :showHeader="false"
         :dataSource="config.branchConfig"
         rowKey="branch"
         :pagination="false"
@@ -121,19 +122,26 @@
     >
       <a-textarea
         v-model="uploadTxt"
-        placeholder="
-            配置格式：
-            ----------
-            master:
-              key1: value1
-              key2: value2
-            test:
-              key1: value1
-              key2: value2
-            dev:
-              key1: value1
-              key2: value2"
-        :rows="15"
+        placeholder="配置格式：
+-----(方法一:一下添加所有分支配置)-----
+master:
+  key1: value1
+  ...
+test:
+  key1: value1
+-----(方法二：一下只先添加一个分支的配置，后面可以再追加)-----
+test:
+  key1: value1
+-----(追加配置)-----
+test:
+  key3: value3
+-----(再追加配置)-----
+master:
+  key1: value1
+  key2: value2
+注意：追加配置的时候，如果配置和分支存在会执行更新操作，但是不会创建pipeline自动部署依赖项目
+"
+        :rows="20"
       />
     </a-modal>
   </div>
