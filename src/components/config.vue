@@ -21,7 +21,7 @@
         </a-select>
         <!-- 项目信息 -->
         <a-popconfirm
-          title="是否自动依赖部署？"
+          title="是否自动部署依赖？"
           @confirm="saveAndDeploy"
           @cancel="save"
           okText="是"
