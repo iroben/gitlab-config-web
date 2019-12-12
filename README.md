@@ -1,5 +1,5 @@
 
-# GitLag配置管理Web端
+# GitLab配置管理Web端
 
 # 项目效果
 ![项目效果](https://user-gold-cdn.xitu.io/2019/11/29/16eb503c8adbc967?w=1024&h=639&f=gif&s=2885973)
