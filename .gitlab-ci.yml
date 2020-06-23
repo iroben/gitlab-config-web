@@ -20,13 +20,12 @@ testbuild:
 pages:
   stage: deploy
   script:
-    - rm -rf public
-    - mkdir public
-    - mv dist/* public
-  artifacts:
-    expire_in: 3 days
-    paths:
-      - public
+    - mkdir -p ~/.ssh
+    - echo "$GITLAB_DEPLOY_SSH" >> ~/.ssh/id_dsa
+    - chmod 600 ~/.ssh/id_dsa
+    - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+    - ssh -tt "$GITLAB_DEPLOY_USER"@"$GITLAB_DEPLOY_HOST" "mkdir -p /data/www/$CI_PROJECT_NAME"
+    - rsync -avz dist/* "$GITLAB_DEPLOY_USER"@"$GITLAB_DEPLOY_HOST":/data/www/$CI_PROJECT_NAME
   only:
     - test
 
