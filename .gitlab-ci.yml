@@ -7,7 +7,7 @@ testbuild:
   stage: build
   script:
     - chmod a+x .config.sh
-    - ./.config.sh > src/config.js
+    # - ./.config.sh > src/config.js
     - npm install --no-optional
     - npm run build
   artifacts:
