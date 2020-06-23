@@ -1,4 +1,4 @@
-image: node:8.9.3
+image: node:14.0.4
 stages:
   - build
   - deploy
@@ -9,7 +9,7 @@ testbuild:
     - chmod a+x .config.sh
     - ./.config.sh > src/config.js
     - npm install --no-optional
-    - npm run build    
+    - npm run build
   artifacts:
     expire_in: 1 week
     paths:
