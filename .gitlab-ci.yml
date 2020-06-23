@@ -17,8 +17,9 @@ testbuild:
   only:
     - test
 
-pages:
+deploy_test:
   stage: deploy
+  image: sebble/deploy
   script:
     - mkdir -p ~/.ssh
     - echo "$GITLAB_DEPLOY_SSH" >> ~/.ssh/id_dsa
