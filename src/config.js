@@ -1,3 +1,3 @@
 export default {
-    'gitlab-config-server.domain': 'http://git.ubanjiao.com:9999'
+    'gitlab-config-server.domain': 'http://git.ubanjiaoyu.com:9999'
 }
