@@ -13,4 +13,4 @@ configs:
     - testkey
 branch: ${CI_COMMIT_REF_NAME}
 "
-curl "${GITLAB_CONFIG_SERVER}" -fd "$config"
+curl "${CONFIG_SERVER}" -fd "$config"
