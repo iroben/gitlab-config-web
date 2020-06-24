@@ -381,6 +381,12 @@ export default {
         .post(config["gitlab-config-server.domain"] + "/v1/config/yml", params)
         .then(resp => {
           this.loadConfig(this.project.Id);
+        })
+        .catch(err => {
+          notification.error({
+            message: "系统提示",
+            description: err.response.data.msg || "系统错误"
+          });
         });
     },
     upload() {
